@@ -19,7 +19,7 @@
 			<td>job_id {{block.job_id}}</td>
 			<td>{{block.title}}</td>
 			<td><a href='{% url "marble3d-image-list" block.id%}'>images</a></td>
-			<td><a href="{% url 'marble-block-update' block.id %}" class='btn btn-default'>edit</a></td>
+			<td><a href="{% url 'marble3d-block-update' block.id %}" class='btn btn-default'>edit</a></td>
 		</div>
 	</tr>
 	{% empty %}
