@@ -11,8 +11,9 @@ urlpatterns = patterns('',
 	url(r'create/$', login_required(views.BlockCreateView.as_view()), name= 'marble3d-block-create'),
 	url(r'blocks/(?P<block_pk>\d+)/$', login_required(views.ImageListView.as_view()), name= 'marble3d-image-list'),
 	url(r'blocks/(?P<block_pk>\d+)/update/$', login_required(views.BlockUpdateView.as_view()), name= 'marble3d-block-update'),
-	url(r'blocks/(?P<block_pk>\d+)/upload/$', login_required(views.uploadImage), name= 'marble3d-image-upload'),
 	url(r'images/(?P<image_pk>\d+)/update/$', login_required(views.ImageUpdateView.as_view()), name= 'marble3d-image-update'),
+	
+	url(r'blocks/(?P<block_pk>\d+)/upload/$', login_required(views.uploadImage), name= 'marble3d-image-upload'),
 	
 
 	# Endpoints which CrowdCafe calls:
