@@ -64,7 +64,7 @@ def processGoodJudgement(judgement_to_pick, unit):
 		judgement_to_pick.cropAndSave(unit['input_data'],token,secret)
 		# update image in Rockpearl
 		img.status = 'CD'
-		img.crowdcafe_unit_id = item['unit']
+		img.crowdcafe_unit_id = unit['pk']
 		img.save()
 		# update unit in CrowdCafe
 		updateUnitStatus(item['unit'],'CD')
