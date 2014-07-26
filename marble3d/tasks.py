@@ -66,7 +66,7 @@ def processGoodJudgement(judgement_to_pick, unit):
 		img.status = 'CD'
 		img.crowdcafe_unit_id = unit['pk']
 		img.save()
-		# update unit in CrowdCafe
-		updateUnitStatus(unit['pk'],'CD')
 	else:
 		log.debug('image with id:' + str(unit['input_data']['image_id'])+', does not exist. We did nothing.')
+	# anyway mark unit as completed in order to avoid further judgements
+	updateUnitStatus(unit['pk'],'CD')
