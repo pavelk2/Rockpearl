@@ -18,4 +18,4 @@ class Image(models.Model):
 
 	@property
 	def crowdcafeUnitUrl(self):
-		return settings.CROWDCAFE['base_url']+'jobs/'+str(self.block.job_id)+'/units/'+str(self.crowdcafe_unit_id)
+		return settings.CROWDCAFE['base_url']+'units/'+str(self.crowdcafe_unit_id)
