@@ -23,7 +23,7 @@
 			<td>{{image.get_status_display}}</td>
 			<td><a href='{{image.url}}' target='_blank'>{{image.filename}}</a></td>
 			<td><a href='{{image.crowdcafeUnitUrl}}' target='_blank'>crowdcafe unit</a></td>
-			<td><a href="{% url 'marble3d-block-update' block.id %}" class='btn btn-default'>edit</a></td>
+			<td><a href="{% url 'marble3d-image-update' image.id %}" class='btn btn-default'>edit</a></td>
 		</div>
 	</tr>
 	{% empty %}
