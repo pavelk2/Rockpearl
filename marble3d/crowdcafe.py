@@ -76,17 +76,6 @@ class Evaluation:
 		log.debug('scale: ' + str(scale))
 		return scale
 
-	def judgementIsSimilarToGold(self):
-		#judgement2 = gold
-	
-		log.debug('\n **********************\n polygon evaluation started')
-		
-		evaluated = self.checkCentralPoint() and self.checkGoldArea()
-		
-		log.debug('\n polygon evaluation passed: '+ str(evaluated)+'\n**********************')
-		
-		return evaluated
-
 	# handle2 gold
 	def judgementsAreSimilar(self):
 		log.debug('\n **********************\n check judgements similarity')
@@ -122,16 +111,6 @@ class Evaluation:
 
 		return delta_relative['x'] < self.threashold['center_distance'] and delta_relative['y']<self.threashold['center_distance']
 
-	def checkGoldArea(self):
-		area = self.getArea()
-
-		limits = {}
-		limits['min']= area['judgement2']*self.threashold['area_min']
-		limits['max']= area['judgement2']*self.threashold['area_max']
-
-		log.debug('limits: ' + str(limits))
-		return (area['judgement1'] >= limits['min']) and (area['judgement1'] <= limits['max'])
-
 	def checkArea(self):
 		area = self.getArea()
 		return max([area['judgement1'],area['judgement2']])/min([area['judgement1'],area['judgement2']])<= self.threashold['area_max']
@@ -152,4 +131,4 @@ def controlCrowdCafeData(data_in_json):
 		else:
 			judgements['given'] = CrowdCafeJudgement(crowdcafe_data = item)
 	evaluation = Evaluation(judgement1 = judgements['given'],judgement2 = judgements['gold'],threashold = settings.MARBLE_3D_ERROR_THREASHOLD)
-	return evaluation.judgementIsSimilarToGold()
+	return evaluation.judgementsAreSimilar()

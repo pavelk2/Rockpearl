@@ -23,7 +23,7 @@ PROJECT_ROOT = os.path.abspath(
 MARBLE_3D_ERROR_THREASHOLD = {
     'center_distance':0.1,
     'area_min':1,
-    'area_max':1.3
+    'area_max':1.1
 }
 MARBLE_3D_ENLARGE_POLYGON = 1.07
 # Quick-start development settings - unsuitable for production

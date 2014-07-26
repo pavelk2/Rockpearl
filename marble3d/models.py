@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
-STATUS_CHOISE = (('RM', 'Removed'), ('NP','Not published'), ('NC', 'Not completed'), ('CD', 'Completed'))
+STATUS_CHOISE = (('NC', 'Not completed'), ('CD', 'Completed'))
 
 class Block(models.Model):
 	user = models.ForeignKey(User)
@@ -12,7 +12,7 @@ class Image(models.Model):
 	block = models.ForeignKey(Block)
 	url = models.URLField(null = True, blank = True)
 	filename = models.CharField(max_length=256, null = True, blank = True)
-	status = models.CharField(max_length=2, choices=STATUS_CHOISE, default='NP')
+	status = models.CharField(max_length=2, choices=STATUS_CHOISE, default='NC')
 	crowdcafe_unit_id = models.IntegerField(null = True, blank = True)
 	date_created = models.DateTimeField(auto_now_add=True, auto_now=False)
 

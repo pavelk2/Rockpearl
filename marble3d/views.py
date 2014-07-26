@@ -14,7 +14,7 @@ from utils import publishImage
 import json
 from crowdcafe import CrowdCafeJudgement, Evaluation, controlCrowdCafeData
 from tasks import processCrowdCafeResult
-
+from utils import updateUnitStatus
 def home(request):
 	return render_to_response('marble3d/home.html', context_instance=RequestContext(request)) 
 
@@ -72,6 +72,19 @@ class ImageListView(ListView):
 		context = super(ImageListView, self).get_context_data(**kwargs)
 		context['imageblock'] = get_object_or_404(Block, pk = self.kwargs.get('block_pk', None),user = self.request.user)
 		return context
+
+class ImageUpdateView(UpdateView):
+	model = Image
+	template_name = "crispy.html"
+	form_class = ImageForm
+
+	def form_invalid(self, form):
+		return UpdateView.form_invalid(self, form)
+	def get_object(self):
+		return get_object_or_404(Image, pk = self.kwargs.get('image_pk', None), block__user = self.request.user)
+   	def form_valid(self, form):
+		image = form.save()
+		return redirect(reverse('marble3d-image-list', kwargs={'block_pk': image.block.id}))
 
 def uploadImage(request, block_pk):
 	block = get_object_or_404(Block, pk = block_pk)
