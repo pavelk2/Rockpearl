@@ -38,11 +38,9 @@ class CrowdCafeJudgement:
 		log.debug('create a cropped image, based on the judgement'+str(self))
 		# get image file from url
 		imagefile = getFileViaUrl(input_data['url'])
-		# bring polygon points to required tuple structure
+		# bring polygon points to required tuple structure and enlarge it according to settings
 		polygon = getScaledPolygon(imagefile, self.shape)
 		log.debug('polygon: '+ str(polygon))
-		# enlarge polygon to avoid cutting edges
-		polygon = enlargePolygon(polygon,settings.MARBLE_3D_ENLARGE_POLYGON)
 		log.debug('enlarged polygon: '+ str(polygon))
 		# get cropped image by polygon
 		croppedImage = cropImageViaPolygon(imagefile, polygon)

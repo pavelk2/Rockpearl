@@ -75,7 +75,7 @@ def sendFileToDropbox(cropped_image_filename, folder, filename, dropbox_token, d
 
 def getScaledPolygon(imagefile, polygon_data):
 	width, height = imagefile.size
-	return [(point['x']*width/polygon_data['canvas_size']['width'], point['y']*height/polygon_data['canvas_size']['height']) for point in polygon_data['polygon']]
+	return [(point['x']*width/polygon_data['canvas_size']['width'], point['y']*height/polygon_data['canvas_size']['height']) for point in enlargePolygon(polygon_data['polygon'])]
 
 def getFileViaUrl(url):
 	response = requests.get(url)
