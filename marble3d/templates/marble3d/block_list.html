@@ -14,7 +14,7 @@
 <div class="container">
 	<table class='table table-hover'>
 		{% for block in object_list %}
-		<tr>
+		<tr class="{{block.status}}">
 			<td>#{{block.id}}</td>
 			<td>job_id {{block.job_id}}</td>
 			<td>{{block.title}}</td>

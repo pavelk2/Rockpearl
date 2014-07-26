@@ -7,6 +7,17 @@ class Block(models.Model):
 	user = models.ForeignKey(User)
 	title = models.CharField(max_length=255, default='New Block')
 	job_id = models.IntegerField(default = 25)
+	
+	@property
+	def status(self):
+		query_set = Image.objects.filter(block = self)
+		if query_set.count()==0:
+			return ''
+		elif query_set.filter(status = 'CD').count() == query_set.count():
+			return 'success'
+		else:
+			return 'info'
+
 
 class Image(models.Model):
 	block = models.ForeignKey(Block)

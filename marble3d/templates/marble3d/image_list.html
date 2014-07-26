@@ -17,7 +17,7 @@
 	<div class='notifications'></div>
 	<table class='table table-hover'>
 		{% for image in object_list %}
-		<tr>
+		<tr class='{% if image.status = "CD" %}success{%endif%}'>
 			<td>#{{image.id}}</td>
 			<td>unit {{image.crowdcafe_unit_id}}</td>
 			<td>{{image.get_status_display}}</td>
