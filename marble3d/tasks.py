@@ -51,18 +51,22 @@ def getGoodJudgement(unit_judgements):
 
 def processGoodJudgement(judgement_to_pick, unit):
 	# get image to which this judgement belongs
-	img = Image.objects.filter(pk = unit['input_data']['image_id']).get()
-	# get user created the block in which this image is
-	user = img.block.user
-	# get dropbox credentials to send this image to dropbox of the user
-	social_user = UserSocialAuth.objects.get(user=user)
-	secret = social_user.tokens['access_token'].split('&')[0].split('=')[1]
-	token = social_user.tokens['access_token'].split('&')[1].split('=')[1]
-	# create cropped image based on the selected judgement and send to dropbox
-	judgement_to_pick.cropAndSave(unit['input_data'],token,secret)
-	# update image in Rockpearl
-	img.status = 'CD'
-	img.crowdcafe_unit_id = item['unit']
-	img.save()
-	# update unit in CrowdCafe
-	updateUnitStatus(item['unit'],'CD')
+	img_query = Image.objects.filter(pk = unit['input_data']['image_id'])
+	if img_query.count()==1:
+		img = img_query.get()
+		# get user created the block in which this image is
+		user = img.block.user
+		# get dropbox credentials to send this image to dropbox of the user
+		social_user = UserSocialAuth.objects.get(user=user)
+		secret = social_user.tokens['access_token'].split('&')[0].split('=')[1]
+		token = social_user.tokens['access_token'].split('&')[1].split('=')[1]
+		# create cropped image based on the selected judgement and send to dropbox
+		judgement_to_pick.cropAndSave(unit['input_data'],token,secret)
+		# update image in Rockpearl
+		img.status = 'CD'
+		img.crowdcafe_unit_id = item['unit']
+		img.save()
+		# update unit in CrowdCafe
+		updateUnitStatus(item['unit'],'CD')
+	else:
+		log.debug('image with id:' + str(unit['input_data']['image_id'])+', does not exist. We did nothing.')
