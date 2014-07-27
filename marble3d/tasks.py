@@ -2,7 +2,7 @@
 Celery tasks
 """
 import os
-from celery import Celery,task, shared_task
+from celery import Celery,task
 from social_auth.models import UserSocialAuth
 from django.conf import settings
 import json
@@ -13,7 +13,8 @@ from social_auth.models import UserSocialAuth
 from models import Image
 log = logging.getLogger(__name__)
 
-app = Celery('tasks', broker=settings.BROKER_URL)
+#app = Celery('tasks', broker=settings.BROKER_URL)
+app = Celery('tasks',  broker=settings.BROKER_URL)
 
 @app.task()
 def processCrowdCafeResult(item):

@@ -61,7 +61,8 @@ INSTALLED_APPS = (
     'general',
     'dropbox',
     'djcelery',
-    'kombu.transport.django',
+    'djkombu',
+    #'kombu.transport.django',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -106,6 +107,14 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'standard'
         },
+        'logfile': {
+                'level':'DEBUG',
+                'class':'logging.handlers.RotatingFileHandler',
+                'filename': "/var/log/django/rockpearl.log",
+                'maxBytes': 50000,
+                'backupCount': 3,
+                'formatter': 'standard',
+            },
     },
     'loggers': {
         'django': {
@@ -199,5 +208,7 @@ STATICFILES_FINDERS = (
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+BROKER_BACKEND = "djkombu.transport.DatabaseTransport"
 BROKER_URL = 'django://'
+TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+#BROKER_URL = 'django://'
