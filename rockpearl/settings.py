@@ -110,7 +110,7 @@ LOGGING = {
         'logfile': {
                 'level':'DEBUG',
                 'class':'logging.handlers.RotatingFileHandler',
-                'filename': "/var/log/django/rockpearl.log",
+                'filename': "rockpearl.log",
                 'maxBytes': 50000,
                 'backupCount': 3,
                 'formatter': 'standard',
