@@ -61,8 +61,8 @@ INSTALLED_APPS = (
     'general',
     'dropbox',
     'djcelery',
-    'djkombu',
-    #'kombu.transport.django',
+    #'djkombu',
+    'kombu.transport.django',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -113,8 +113,8 @@ LOGGING = {
                 'filename': "rockpearl.log",
                 'maxBytes': 50000,
                 'backupCount': 3,
-                'formatter': 'standard',
-            },
+                'formatter': 'standard'
+            }
     },
     'loggers': {
         'django': {
