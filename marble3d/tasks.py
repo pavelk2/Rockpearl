@@ -19,12 +19,9 @@ app = Celery('tasks',  broker=settings.BROKER_URL)
 @app.task()
 def processCrowdCafeResult(item):
 	unit_url = settings.CROWDCAFE['api_url']+'unit/'+str(item['unit'])+'/'
-	#TODO - to fix - i use 'patch', because 'get' does not work
-	unit = sendRequest('patch',unit_url).json()
+	unit = sendRequest('get',unit_url).json()
 	log.debug('unit: ' + str(unit))
 	
-	updateUnitStatus(item['unit'],'NC')
-
 	url = settings.CROWDCAFE['api_url']+'unit/'+str(item['unit'])+'/judgement/'
 	judgements_of_unit = sendRequest('get',url).json()
 	log.debug('judgements in the unit: ' + str(judgements_of_unit))
@@ -33,6 +30,8 @@ def processCrowdCafeResult(item):
 		judgement_to_pick = getGoodJudgement(judgements_of_unit['results'])
 		if judgement_to_pick:
 			processGoodJudgement(judgement_to_pick, unit)
+		else:
+			updateUnitStatus(unit['pk'],'NC')
 	else:
 		log.debug('judgements in the unit are less than 2')
 

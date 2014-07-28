@@ -54,16 +54,16 @@ def splitArrayIntoPairs(arr):
     return [[arr[i-1],arr[i]] for i in range(len(arr))] 
 
 
-def updateUnitStatus(unit_id, status = 'NC'):
-    url = settings.CROWDCAFE['api_url']+'unit/'+str(unit_id)+'/'
-    log.debug('unit status update url: '+str(url))
-    r = sendRequest('patch',url,{'status':status})
-    log.debug('unit status update '+str(r))
-    if r.status_code in [201,200]:
-    	log.debug('unit status update url: '+str(r.json()))
-        if r.json()['status'] == status:
-            return True
-    return False
+def updateUnitStatus(unit_id, status):
+	url = settings.CROWDCAFE['api_url']+'unit/'+str(unit_id)+'/'
+	log.debug('unit status update url: '+str(url))
+	r = sendRequest('patch',url,{'status':status})
+	log.debug('unit status update '+str(r))
+	if r.status_code in [201,200]:
+		log.debug('unit status update url: '+str(r.json()))
+		if r.json()['status'] == status:
+			return True
+	return False
 
 def sendFileToDropbox(cropped_image_filename, folder, filename, dropbox_token, dropbox_secret):
 	dropbox_path = settings.DROPBOX_FOLDER_NAME+'/'+folder+'/'+filename
