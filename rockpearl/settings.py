@@ -177,6 +177,8 @@ SOCIAL_AUTH_PIPELINE = (
 LOGIN_ERROR_URL = '/'
 LOGIN_URL='/'
 LOGIN_REDIRECT_URL = '/marble3d/'
+
+MEDIA_ROOT = '/var/django/media/'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
