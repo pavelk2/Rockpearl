@@ -48,7 +48,7 @@ class CrowdCafeJudgement:
 		cropped_image_filename = str(random.randint(1000000, 9999999))+'.png'
 		log.debug('cropped_image_filename: '+ str(cropped_image_filename))
 		# save this file into dropbox
-		croppedImage.save(cropped_image_filename)
+		croppedImage.save(os.path.join(settings.MEDIA_ROOT, cropped_image_filename))
 		uploaded = sendFileToDropbox(cropped_image_filename, input_data['block_title'], input_data['image_filename']+'.png', dropbox_token, dropbox_secret)
 		log.debug('uploaded to dropbox: '+ str(uploaded))
 
