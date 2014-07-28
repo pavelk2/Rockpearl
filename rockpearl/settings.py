@@ -15,6 +15,13 @@ import os
 from settings_database import *
 from settings_credentials import *
 
+ADMINS = (
+    ('Pavel', 'pavel@crowdcafe.io'),
+    ('Stefano', 'stefano@crowdcafe.io'),
+)
+
+MANAGERS = ADMINS
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.abspath(
     os.path.join(os.path.dirname(__file__), ".."),
@@ -61,6 +68,7 @@ INSTALLED_APPS = (
     'general',
     'dropbox',
     'djcelery',
+    'djrill',
     #'djkombu',
     'kombu.transport.django',
 )
@@ -98,6 +106,11 @@ LOGGING = {
             'datefmt': "%d/%b/%Y %H:%M:%S"
         },
     },
+    'filters': {
+            'require_debug_false': {
+                '()': 'django.utils.log.RequireDebugFalse'
+            }
+        },
     'handlers': {
         'null': {
             'level': 'DEBUG',
@@ -114,26 +127,31 @@ LOGGING = {
                 'maxBytes': 50000,
                 'backupCount': 3,
                 'formatter': 'standard'
-            }
+        },
+        'mail_admins': {
+                'level': 'ERROR',
+                'filters': ['require_debug_false'],
+                'class': 'django.utils.log.AdminEmailHandler'
+            },
     },
     'loggers': {
         'django': {
-            'handlers': ['console','logfile'],
+            'handlers': ['console','logfile','mail_admins'],
             'propagate': True,
             'level': 'WARN',
         },
         'django.db.backends': {
-            'handlers': ['console','logfile'],
+            'handlers': ['console','logfile','mail_admins'],
             'level': 'WARNING',
             'propagate': False,
         },
         'marble3d': {
-            'handlers': ['console','logfile'],
+            'handlers': ['console','logfile','mail_admins'],
             'level': 'WARNING',
             'propagate': False,
         },
         'celery': {
-            'handlers': ['console','logfile'],
+            'handlers': ['console','logfile','mail_admins'],
             'level': 'WARNING',
             'propagate': True
         }
