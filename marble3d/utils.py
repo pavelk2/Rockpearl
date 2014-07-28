@@ -55,7 +55,7 @@ def splitArrayIntoPairs(arr):
 
 
 def updateUnitStatus(unit_id, status = 'NC'):
-    url = settings.CROWDCAFE['api_url']+'unit/'+str(unit_id)
+    url = settings.CROWDCAFE['api_url']+'unit/'+str(unit_id)+'/'
     log.debug('unit status update url: '+str(url))
     r = sendRequest('patch',url,{'status':status})
     log.debug('unit status update '+str(r))

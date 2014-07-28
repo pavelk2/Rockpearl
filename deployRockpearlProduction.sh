@@ -1,1 +1,1 @@
-gunicorn_django --workers=1 --bind rockpearl.crowdcafe.io:80
+gunicorn --bind rockpearl.crowdcafe.io:80  rockpearl.wsgi:application

@@ -131,6 +131,11 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,
+        },
+        'celery.logger': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True
         }
 
     }
