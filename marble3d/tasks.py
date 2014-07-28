@@ -24,7 +24,7 @@ def processCrowdCafeResult(item):
 	
 	url = settings.CROWDCAFE['api_url']+'unit/'+str(item['unit'])+'/judgement/'
 	judgements_of_unit = sendRequest('get',url).json()
-	log.debug('judgements in the unit: ' + str(judgements_of_unit))
+	log.debug('judgements in the unit are: ' + str(judgements_of_unit['count']))
 	
 	if judgements_of_unit['count'] >= 2 and not unit['gold']:
 		judgement_to_pick = getGoodJudgement(judgements_of_unit['results'])
@@ -37,6 +37,8 @@ def processCrowdCafeResult(item):
 		log.debug('judgements in the unit are less than 2')
 
 def getGoodJudgement(unit_judgements):
+	log.debug('get good judgement')
+
 	judgement_to_pick = False
 	# split judgements of the unit in pairs
 	for pair in splitArrayIntoPairs(unit_judgements):
@@ -44,6 +46,7 @@ def getGoodJudgement(unit_judgements):
 		judgement2 = CrowdCafeJudgement(crowdcafe_data = pair[1])
 		# we check if judgements in the pair are similar to each other
 		evaluation = Evaluation(judgement1 = judgement1, judgement2 = judgement2, threashold = settings.MARBLE_3D_ERROR_THREASHOLD)
+		
 		if evaluation.judgementsAreSimilar():
 			# if they are similar, we pick the first judgement from the pair
 			judgement_to_pick = judgement1
