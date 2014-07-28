@@ -107,10 +107,10 @@ LOGGING = {
         },
     },
     'filters': {
-            'require_debug_false': {
-                '()': 'django.utils.log.RequireDebugFalse'
-            }
-        },
+            'require_debug_false': {
+                '()': 'django.utils.log.RequireDebugFalse'
+            }
+        },
     'handlers': {
         'null': {
             'level': 'DEBUG',
