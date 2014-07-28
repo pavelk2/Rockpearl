@@ -52,8 +52,10 @@ def sendRequest(request_type, url,data = {}):
 	return r
 
 def splitArrayIntoPairs(arr):
-	return list(itertools.combinations(arr,2))
-    #return [[arr[i-1],arr[i]] for i in range(len(arr))] 
+	pairs = list(itertools.combinations(arr,2))
+	log.debug('\n pairs: %s',pairs)
+	return pairs
+	#return [[arr[i-1],arr[i]] for i in range(len(arr))] 
 
 
 def updateUnitStatus(unit_id, status):
