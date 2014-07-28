@@ -22,6 +22,8 @@ def processCrowdCafeResult(item):
 	#TODO - to fix - i use 'patch', because 'get' does not work
 	unit = sendRequest('patch',unit_url).json()
 	log.debug('unit: ' + str(unit))
+	
+	updateUnitStatus(item['unit'],'NC')
 
 	url = settings.CROWDCAFE['api_url']+'unit/'+str(item['unit'])+'/judgement/'
 	judgements_of_unit = sendRequest('get',url).json()
@@ -29,10 +31,7 @@ def processCrowdCafeResult(item):
 	
 	if judgements_of_unit['count'] >= 2 and not unit['gold']:
 		judgement_to_pick = getGoodJudgement(judgements_of_unit['results'])
-		if not judgement_to_pick:
-			# if we don't have judgements which are close to each other we update Unit status = 'Not completed'
-			updateUnitStatus(item['unit'],'NC')
-		else:
+		if judgement_to_pick:
 			processGoodJudgement(judgement_to_pick, unit)
 	else:
 		log.debug('judgements in the unit are less than 2')
