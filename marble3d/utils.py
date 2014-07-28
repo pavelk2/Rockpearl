@@ -14,6 +14,7 @@ from models import Image as Img, Block
 import os
 import json
 from polygons import enlargePolygon
+import itertools
 
 
 
