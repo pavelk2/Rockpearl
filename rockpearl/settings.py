@@ -118,22 +118,22 @@ LOGGING = {
     },
     'loggers': {
         'django': {
-            'handlers': ['console'],
+            'handlers': ['console','logfile'],
             'propagate': True,
             'level': 'WARN',
         },
         'django.db.backends': {
-            'handlers': ['console'],
+            'handlers': ['console','logfile'],
             'level': 'WARNING',
             'propagate': False,
         },
         'marble3d': {
-            'handlers': ['console'],
+            'handlers': ['console','logfile'],
             'level': 'DEBUG',
             'propagate': False,
         },
         'celery': {
-            'handlers': ['console'],
+            'handlers': ['console','logfile'],
             'level': 'DEBUG',
             'propagate': True
         }
