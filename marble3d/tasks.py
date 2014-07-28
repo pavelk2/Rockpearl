@@ -30,6 +30,7 @@ def processCrowdCafeResult(item):
 		judgement_to_pick = getGoodJudgement(judgements_of_unit['results'])
 		if judgement_to_pick:
 			processGoodJudgement(judgement_to_pick, unit)
+			updateUnitStatus(unit['pk'],'CD')
 		else:
 			updateUnitStatus(unit['pk'],'NC')
 	else:
@@ -51,8 +52,8 @@ def getGoodJudgement(unit_judgements):
 def processGoodJudgement(judgement_to_pick, unit):
 	# get image to which this judgement belongs
 	img_query = Image.objects.filter(pk = unit['input_data']['image_id'])
-	if img_query.count()==1:
-		img = img_query.get()
+	if img_query.count()>0:
+		img = img_query.all()[0]
 		# get user created the block in which this image is
 		user = img.block.user
 		# get dropbox credentials to send this image to dropbox of the user
@@ -67,5 +68,3 @@ def processGoodJudgement(judgement_to_pick, unit):
 		img.save()
 	else:
 		log.debug('image with id:' + str(unit['input_data']['image_id'])+', does not exist. We did nothing.')
-	# anyway mark unit as completed in order to avoid further judgements
-	updateUnitStatus(unit['pk'],'CD')
