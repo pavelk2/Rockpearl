@@ -5,6 +5,8 @@ echo 'pulling from repository'
 git reset --hard HEAD
 git pull
 echo 'starting gunicorn '
-gunicorn --bind rockpearl.crowdcafe.io:80 rockpearl.wsgi:application
+gunicorn --bind rockpearl.crowdcafe.io:80 rockpearl.wsgi:application &
+echo 'restarting celery '
+/etc/init.d/celeryd restart
 echo 'checking DEBUG'
 less rockpearl/settings.py | grep 'DEBUG ='
