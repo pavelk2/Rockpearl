@@ -49,13 +49,13 @@ class CrowdCafeJudgement:
 		log.debug('cropped_image_filename: '+ str(cropped_image_filename))
 		# save this file into dropbox
 		croppedImage.save(os.path.join(settings.MEDIA_ROOT, cropped_image_filename))
-		uploaded = sendFileToDropbox(cropped_image_filename, input_data['block_title'], input_data['image_filename']+'.png', dropbox_token, dropbox_secret)
+		uploaded = sendFileToDropbox(image_path, input_data['block_title'], input_data['image_filename']+'.png', dropbox_token, dropbox_secret)
 		log.debug('uploaded to dropbox: '+ str(uploaded))
 
 		image_path = os.path.join(settings.MEDIA_ROOT, cropped_image_filename)
 		try:
 			os.unlink(image_path)
-			log.debug('file deleted: '+ str(cropped_image_filename))
+			log.debug('file deleted: '+ str(image_path))
 		except:
 			pass
 
