@@ -34,7 +34,7 @@ def processCrowdCafeResult(item):
 		else:
 			updateUnitStatus(unit['pk'],'NC')
 	else:
-		log.debug('judgements in the unit are less than 2')
+		log.debug('judgements in the unit are less than 2 or the unit is gold')
 
 def getGoodJudgement(unit_judgements):
 	log.debug('get good judgement')

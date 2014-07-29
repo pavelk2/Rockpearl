@@ -6,7 +6,7 @@ STATUS_CHOISE = (('NC', 'Not completed'), ('CD', 'Completed'))
 class Block(models.Model):
 	user = models.ForeignKey(User)
 	title = models.CharField(max_length=255, default='New Block')
-	job_id = models.IntegerField(default = 25)
+	job_id = models.IntegerField(default = 7)
 	
 	@property
 	def status(self):
