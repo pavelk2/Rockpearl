@@ -71,8 +71,8 @@ class Evaluation:
 		self.judgement2 = judgement2 # judgement2 is considered as gold in gold evaluation tasks
 		self.threashold = threashold
 
-		if self.judgement1.is_exist() and self.judgement2.is_exist()
-		self.scale = self.getScale()
+		if self.judgement1.is_exist() and self.judgement2.is_exist():
+			self.scale = self.getScale()
 
 	def getScale(self):
 		#TODO - do we need float here?
