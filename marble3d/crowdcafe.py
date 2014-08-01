@@ -20,10 +20,11 @@ class CrowdCafeJudgement:
 
 		self.shape = self.getShapes()
 		log.debug('info: '+ str(self))
-
+	def is_exist(self):
+		return 'shapes' in self.data['output_data']:
 	def getShapes(self):
 		judgement_shape = {}
-		if 'shapes' in self.data['output_data']:
+		if self.is_exist():
 			shapes = json.loads(self.data['output_data']['_shapes'])
 			for shape in shapes['objects']:
 				if shape['type'] == 'image':
@@ -69,6 +70,8 @@ class Evaluation:
 		self.judgement1 = judgement1
 		self.judgement2 = judgement2 # judgement2 is considered as gold in gold evaluation tasks
 		self.threashold = threashold
+
+		if self.judgement1.is_exist() and self.judgement2.is_exist()
 		self.scale = self.getScale()
 
 	def getScale(self):
@@ -84,7 +87,7 @@ class Evaluation:
 	def judgementsAreSimilar(self):
 		log.debug('\n **********************\n check judgements similarity')
 		# if some of judgements are empty - return false
-		if not self.judgement1 or not self.judgement2:
+		if not self.judgement1.is_exist() or not self.judgement2.is_exist():
 			return False
 		evaluated = self.checkCentralPoint() and self.checkArea()
 		
