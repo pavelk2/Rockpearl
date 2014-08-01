@@ -21,7 +21,7 @@ class CrowdCafeJudgement:
 		self.shape = self.getShapes()
 		log.debug('info: '+ str(self))
 	def is_exist(self):
-		return 'shapes' in self.data['output_data']:
+		return 'shapes' in self.data['output_data']
 	def getShapes(self):
 		judgement_shape = {}
 		if self.is_exist():
