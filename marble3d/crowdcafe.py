@@ -21,7 +21,7 @@ class CrowdCafeJudgement:
 		self.shape = self.getShapes()
 		log.debug('info: '+ str(self))
 	def is_exist(self):
-		return 'shapes' in self.data['output_data']
+		return '_shapes' in self.data['output_data']
 	def getShapes(self):
 		judgement_shape = {}
 		if self.is_exist():
@@ -73,7 +73,6 @@ class Evaluation:
 
 		if self.judgement1.is_exist() and self.judgement2.is_exist():
 			self.scale = self.getScale()
-
 	def getScale(self):
 		#TODO - do we need float here?
 		scale = {
