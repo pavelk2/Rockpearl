@@ -23,16 +23,19 @@ class CrowdCafeJudgement:
 
 	def getShapes(self):
 		judgement_shape = {}
-		shapes = json.loads(self.data['output_data']['_shapes'])
-		for shape in shapes['objects']:
-			if shape['type'] == 'image':
-				judgement_shape['canvas_size'] = getCanvasSize(shape)
-			if shape['type'] == 'rect':
-				judgement_shape['polygon'] = getRectangleCoordinates(shape)
-				log.debug('rectangle points: '+ str(judgement_shape[handler]['polygon']))
-			if shape['type'] == 'polygon':
-				judgement_shape['polygon'] = getPolygonPoints(shape)
-		return judgement_shape
+		if 'shapes' in self.data['output_data']:
+			shapes = json.loads(self.data['output_data']['_shapes'])
+			for shape in shapes['objects']:
+				if shape['type'] == 'image':
+					judgement_shape['canvas_size'] = getCanvasSize(shape)
+				if shape['type'] == 'rect':
+					judgement_shape['polygon'] = getRectangleCoordinates(shape)
+					log.debug('rectangle points: '+ str(judgement_shape[handler]['polygon']))
+				if shape['type'] == 'polygon':
+					judgement_shape['polygon'] = getPolygonPoints(shape)
+			return judgement_shape
+		else:
+			return False
 	
 	def cropAndSave(self, input_data, dropbox_token, dropbox_secret):
 		log.debug('create a cropped image, based on the judgement'+str(self))
@@ -80,7 +83,9 @@ class Evaluation:
 	# handle2 gold
 	def judgementsAreSimilar(self):
 		log.debug('\n **********************\n check judgements similarity')
-		
+		# if some of judgements are empty - return false
+		if not self.judgement1 or not self.judgement2:
+			return False
 		evaluated = self.checkCentralPoint() and self.checkArea()
 		
 		log.debug('\n judgements are similar to each other: '+ str(evaluated)+'\n**********************')
