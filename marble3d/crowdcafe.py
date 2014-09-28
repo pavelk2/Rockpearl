@@ -1,6 +1,6 @@
 import json
 from django.conf import settings
-from polygons import enlargePolygon, getPolygonArea, getPolygonCenter, getDistance, getPolygonAreaDiagonalLength, getRectangleCoordinates, getPolygonPoints, getCanvasSize
+from polygons import enlargePolygon, getPolygonArea,getPolygonPerimetr, getPolygonCenter, getDistance, getPolygonAreaDiagonalLength, getRectangleCoordinates, getPolygonPoints, getCanvasSize
 import logging
 from utils import splitArrayIntoPairs, sendRequest, updateUnitStatus, getFileViaUrl, getScaledPolygon, cropImageViaPolygon, sendFileToDropbox
 import random
@@ -44,8 +44,6 @@ class CrowdCafeJudgement:
 		imagefile = getFileViaUrl(input_data['url'])
 		# bring polygon points to required tuple structure and enlarge it according to settings
 		polygon = getScaledPolygon(imagefile, self.shape)
-		log.debug('polygon: '+ str(polygon))
-		log.debug('enlarged polygon: '+ str(polygon))
 		# get cropped image by polygon
 		croppedImage = cropImageViaPolygon(imagefile, polygon)
 		# save this cropped image in a file
@@ -88,7 +86,7 @@ class Evaluation:
 		# if some of judgements are empty - return false
 		if not self.judgement1.is_exist() or not self.judgement2.is_exist():
 			return False
-		evaluated = self.checkCentralPoint() and self.checkArea()
+		evaluated = self.checkCentralPoint() and self.checkArea() and self.checkPerimetr()
 		
 		log.debug('\n judgements are similar to each other: '+ str(evaluated)+'\n**********************')
 		
@@ -121,7 +119,23 @@ class Evaluation:
 
 	def checkArea(self):
 		area = self.getArea()
-		return max([area['judgement1'],area['judgement2']])/min([area['judgement1'],area['judgement2']])<= self.threashold['area_max']
+		area_relative_difference = (max([area['judgement1'],area['judgement2']])-min([area['judgement1'],area['judgement2']]))/min([area['judgement1'],area['judgement2']])
+		log.debug('area relative difference: ' + str(area_relative_difference))
+		return area_relative_difference <= self.threashold['area']
+
+	def checkPerimetr(self):
+		perimetr = self.getPerimetr()
+		perimetr_relative_difference = (max([perimetr['judgement1'],perimetr['judgement2']])-min([perimetr['judgement1'],perimetr['judgement2']]))/min([perimetr['judgement1'],perimetr['judgement2']])
+		log.debug('perimetr relative difference: ' + str(perimetr_relative_difference))
+		return  perimetr_relative_difference <= self.threashold['perimetr']
+
+	def getPerimetr(self):
+		perimetr = {}
+		perimetr['judgement1'] = getPolygonPerimetr(self.judgement1.shape['polygon'])
+		perimetr['judgement2'] = getPolygonPerimetr(self.judgement2.shape['polygon'])*(self.scale['x'])
+
+		log.debug('perimetr: ' + str(perimetr))
+		return perimetr
 
 	def getArea(self):
 		area = {}

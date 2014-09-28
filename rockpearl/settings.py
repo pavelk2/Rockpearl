@@ -29,10 +29,10 @@ PROJECT_ROOT = os.path.abspath(
 
 MARBLE_3D_ERROR_THREASHOLD = {
     'center_distance':0.15,
-    'area_min':1,
-    'area_max':1.15
+    'perimetr':0.15,
+    'area':0.15
 }
-MARBLE_3D_ENLARGE_POLYGON = 1.1
+MARBLE_3D_ENLARGE_POLYGON = 40
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
