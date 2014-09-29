@@ -81,11 +81,9 @@ def sendFileToDropbox(cropped_image_filename, folder, filename, dropbox_token, d
 def getScaledPolygon(imagefile, polygon_data):
 	width, height = imagefile.size
 	log.debug('polygon original:'+str(polygon_data['polygon']))
-
-	polygon_scaled = [(point['x']*width/polygon_data['canvas_size']['width'], point['y']*height/polygon_data['canvas_size']['height']) for point in polygon_data['polygon']]
-	enlarged_polygon = enlargePolygonAbs(polygon_scaled,settings.MARBLE_3D_ENLARGE_POLYGON)
-	return enlarged_polygon
-	log.debug('polygon enlarged:'+str(enlarged_polygon))
+	enlarged_polygon = enlargePolygonAbs(polygon_data['polygon'],settings.MARBLE_3D_ENLARGE_POLYGON)
+	polygon_scaled = [(point['x']*width/polygon_data['canvas_size']['width'], point['y']*height/polygon_data['canvas_size']['height']) for point in enlarged_polygon]
+	return polygon_scaled
 
 def getFileViaUrl(url):
 	response = requests.get(url)
