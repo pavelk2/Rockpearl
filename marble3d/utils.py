@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 from models import Image as Img, Block
 import os
 import json
-from polygons import enlargePolygon, enlargePolygonAbs
+from polygons import enlargePolygonAbs
 import itertools
 
 

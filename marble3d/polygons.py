@@ -76,7 +76,6 @@ def getRectangleCoordinates(shape):
 		{'x': shape['left']+shape['width']*shape['scaleX'],'y':shape['top']}, # right - top
 		{'x': shape['left']+shape['width']*shape['scaleX'],'y':shape['top']+shape['height']*shape['scaleY']}, # right - bottom
 		{'x': shape['left'],'y':shape['top']+shape['height']*shape['scaleY']} # left - bottom
-		
 	]
 def getPolygonPoints(shape):
 	# apply starting point shift to all points of the polygon

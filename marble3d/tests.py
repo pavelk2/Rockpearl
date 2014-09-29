@@ -12,7 +12,7 @@ import requests
 from django.conf import settings
 from crowdcafe import CrowdCafeJudgement, Evaluation, controlCrowdCafeData
 from tasks import processCrowdCafeResult
-from polygons import enlargePolygon
+from polygons import enlargePolygonRel
 
 log = logging.getLogger(__name__)
 
@@ -41,5 +41,5 @@ class Marble3D(TestCase):
     def test_polygon_enlargement(self):
         polygon = [{'x':10,'y':10},{'x':20,'y':10},{'x':20,'y':20},{'x':10,'y':20}]
         polygon_enlarged = [{'y': 9.75, 'x': 9.75}, {'y': 9.75, 'x': 20.25}, {'y': 20.25, 'x': 20.25}, {'y': 20.25, 'x': 9.75}]
-        self.assertEqual(enlargePolygon(polygon,1.05), polygon_enlarged)
+        self.assertEqual(enlargePolygonRel(polygon,1.05), polygon_enlarged)
     # add test for receive Judgements
