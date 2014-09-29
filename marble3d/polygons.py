@@ -52,17 +52,19 @@ def enlargePolygon(points, multiplier):
 	return [{'x':multiplier*(point['x']-center['x'])+center['x'],'y':multiplier*(point['y']-center['y'])+center['y']} for point in points]
 
 def enlargePolygonAbs(points, delta):
+	center = getPolygonCenter(points)
+
 	for point in points:
-		x = point['x']
-		y = point['y']
+		x = point['x'] - center['x']
+		y = point['y'] - center['y']
 		z = math.sqrt(math.pow(x,2)+math.pow(y,2))
 		
 		if z > 0: 
 			fi = math.acos(x/z)
 			print fi
 
-			point['x'] = round((z + delta)*math.cos(fi),2)
-			point['y'] = round((z + delta)*math.sin(fi),2)
+			point['x'] = round((z + delta)*math.cos(fi),2) + center['x']
+			point['y'] = round((z + delta)*math.sin(fi),2) + center['y']
 
 	return points
 # -----------------------------------------------
