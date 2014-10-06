@@ -1,6 +1,6 @@
 import json
 from django.conf import settings
-from polygons import enlargePolygon, getPolygonArea,getPolygonPerimetr, getPolygonCenter, getDistance, getPolygonAreaDiagonalLength, getRectangleCoordinates, getPolygonPoints, getCanvasSize
+from polygons import getPolygonArea,getPolygonPerimetr, getPolygonCenter, getDistance, getPolygonAreaDiagonalLength, getRectangleCoordinates, getPolygonPoints, getCanvasSize
 import logging
 from utils import splitArrayIntoPairs, sendRequest, updateUnitStatus, getFileViaUrl, getScaledPolygon, cropImageViaPolygon, sendFileToDropbox
 import random

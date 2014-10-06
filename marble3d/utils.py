@@ -17,7 +17,6 @@ from polygons import enlargePolygonAbs
 import itertools
 
 
-
 def publishImage(image):
 	image_data = {
 		'image_id' : image.id,

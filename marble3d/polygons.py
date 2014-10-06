@@ -26,8 +26,8 @@ def getPolygonCenter(points):
 	y = [p['y'] for p in points]
 
 	return {
-		'x' : sum(x) / float(len(points)),
-		'y' : sum(y) / float(len(points))
+		'x' : (max(x)+min(x))/2,
+		'y' : (max(y)+min(y))/2
 		}
 def getDistance(point1,point2):
 	return math.hypot(point2['x'] - point1['x'], point2['y'] - point1['y'])
@@ -47,7 +47,7 @@ def getPolygonAreaDiagonalLength(points):
 	}
 	return getDistance(left_top,right_bottom)
 
-def enlargePolygon(points, multiplier):
+def enlargePolygonRel(points, multiplier):
 	center = getPolygonCenter(points)
 	return [{'x':multiplier*(point['x']-center['x'])+center['x'],'y':multiplier*(point['y']-center['y'])+center['y']} for point in points]
 
