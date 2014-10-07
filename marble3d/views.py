@@ -10,7 +10,6 @@ from django.views.generic.list import ListView
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
-from utils import publishImage
 import json
 from crowdcafe import CrowdCafeJudgement, Evaluation, controlCrowdCafeData
 from tasks import processCrowdCafeResult
