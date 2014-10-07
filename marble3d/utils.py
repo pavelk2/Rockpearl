@@ -61,7 +61,7 @@ class CrowdCafeCall:
 			r = requests.patch(url, data = json.dumps(data), headers = headers)
 		return r
 
-	def updateUnitStatus(unit_id, status):
+	def updateUnitStatus(self, unit_id, status):
 		url = settings.CROWDCAFE['api_url']+'unit/'+str(unit_id)+'/'
 		
 		log.debug('unit status update url: '+str(url))
