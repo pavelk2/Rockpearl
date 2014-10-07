@@ -31,9 +31,9 @@ def processCrowdCafeResult(item):
 		judgement_to_pick = getGoodJudgement(judgements_of_unit['results'])
 		if judgement_to_pick:
 			processGoodJudgement(judgement_to_pick, unit)
-			updateUnitStatus(unit['pk'],'CD')
+			call.updateUnitStatus(unit['pk'],'CD')
 		else:
-			updateUnitStatus(unit['pk'],'NC')
+			call.updateUnitStatus(unit['pk'],'NC')
 	else:
 		log.debug('judgements in the unit are less than 2 or the unit is gold')
 
