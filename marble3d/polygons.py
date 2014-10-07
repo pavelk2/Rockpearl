@@ -1,88 +1,94 @@
 import math
-
-# -------------------------------------
+import shapes
+# -----------------------------------------------------------------------------------------------
 # Polygons Geometry
-# -------------------------------------
+# -----------------------------------------------------------------------------------------------
+class Edge:
+	def __init__(self, point1, point2):
+		self.point1 = point1
+		self.point2 = point2
 
-def getPolygonArea(points):
-    total = 0.0
-    N = len(points)
-    
-    for i in range(N):
-        v1 = points[i]
-        v2 = points[(i+1) % N]
-        total += v1['x']*v2['y'] - v1['y']*v2['x']
-    
-    return abs(total/2)
+	def getLength(self):
+		return math.hypot(self.point2['x'] - self.point1['x'], self.point2['y'] - self.point1['y'])
 
-def getPolygonPerimetr(points):
-	p = 0.0
-	for i in range(1, len(points)):
-		p += getDistance(points[i-1],points[i])
-	return p
+class Polygon:
 
-def getPolygonCenter(points):
-	x = [p['x'] for p in points]
-	y = [p['y'] for p in points]
+	def __init__(self, points):
+		self.points = points
+	def getPoints(self):
+		return self.points
+	def getArea(self):
+	    total = 0.0
+	    N = len(self.points)
+	    
+	    for i in range(N):
+	        v1 = self.points[i]
+	        v2 = self.points[(i+1) % N]
+	        total += v1['x']*v2['y'] - v1['y']*v2['x']
+	    
+	    return abs(total/2)
 
-	return {
-		'x' : (max(x)+min(x))/2,
-		'y' : (max(y)+min(y))/2
-		}
-def getDistance(point1,point2):
-	return math.hypot(point2['x'] - point1['x'], point2['y'] - point1['y'])
+	def getPerimeter(self):
+		p = 0.0
+		for i in range(1, len(self.points)):
+			edge = Edge(self.points[i-1],self.points[i])
+			p += edge.getLength()
+		return p
 
-def getPolygonAreaDiagonalLength(points):
-	# if we imagine a rectangle around polygon, here we calculate diagonal length of such a rectangle
-	xs = [point['x'] for point in points]
-	ys = [point['y'] for point in points]
+	def getCenter(self):
+		x = [p['x'] for p in self.points]
+		y = [p['y'] for p in self.points]
+
+		return {
+			'x' : (max(x)+min(x))/2,
+			'y' : (max(y)+min(y))/2
+			}
+	def getScaled(self, multiplier_x, multiplier_y): #multiplier x and y
+		return [{'x':1.0*point['x']*multiplier_x, 'y':1.0*point['y']*multiplier_y} for point in self.points]
 	
-	left_top = {
-		'x':min(xs),
-		'y':min(ys)
-	}
-	right_bottom = {
-		'x':max(xs),
-		'y':max(ys)
-	}
-	return getDistance(left_top,right_bottom)
+	def scale(self, multiplier_x, multiplier_y): #multiplier x and y
+		self.points = self.getScaled(multiplier_x, multiplier_y)
+		return self
 
-def enlargePolygonRel(points, multiplier):
-	center = getPolygonCenter(points)
-	return [{'x':multiplier*(point['x']-center['x'])+center['x'],'y':multiplier*(point['y']-center['y'])+center['y']} for point in points]
-
-def enlargePolygonAbs(points, delta):
-	center = getPolygonCenter(points)
 	
-	for point in points:
-		x = point['x'] - center['x']
-		y = point['y'] - center['y']
-		z = math.sqrt(math.pow(x,2)+math.pow(y,2))
-		
-		if z > 0: 
-			fi = math.acos(abs(x)/abs(z))
+	def getSequence(self):
+		return [(point['x'], point['y']) for point in self.points]
 
-			point['x'] = math.copysign(1, x)*round((z + delta)*math.cos(fi),2) + center['x']
-			point['y'] = math.copysign(1, y)*round((z + delta)*math.sin(fi),2) + center['y']
+	def enlargeAbs(self, delta):
+		center = self.getCenter()
+		new_points = []
+		for point in self.points:
+			x = point['x'] - center['x']
+			y = point['y'] - center['y']
+			z = math.sqrt(math.pow(x,2)+math.pow(y,2))
+			
+			if z > 0: 
+				fi = math.acos(1.0*abs(x)/abs(z))
 
-	return points
-# -----------------------------------------------
-# Get Canonical Coordinates from CrowdCafe data
-# -----------------------------------------------
-def getRectangleCoordinates(shape):
-	# convert rectangle into polygon to have the same logic for both shape types
-	return [
-		{'x': shape['left'],'y':shape['top']}, # left - top
-		{'x': shape['left']+shape['width']*shape['scaleX'],'y':shape['top']}, # right - top
-		{'x': shape['left']+shape['width']*shape['scaleX'],'y':shape['top']+shape['height']*shape['scaleY']}, # right - bottom
-		{'x': shape['left'],'y':shape['top']+shape['height']*shape['scaleY']} # left - bottom
-	]
-def getPolygonPoints(shape):
-	# apply starting point shift to all points of the polygon
-	return [ {'x':point['x']+shape['left'],'y':point['y']+shape['top']} for point in shape['points'] ]
+				point['x'] = 1.0*math.copysign(1, x)*round((z + delta)*math.cos(fi),2) + center['x']
+				point['y'] = 1.0*math.copysign(1, y)*round((z + delta)*math.sin(fi),2) + center['y']
+			new_points.append(point)
+		self.points = new_points
+		return self
 
-def getCanvasSize(shape):
-	canvas = {}
-	for key in ['width','height']:
-		canvas[key]=shape[key]
-	return canvas
+	def enlargeRel(self, multiplier):
+		center = self.getCenter()
+		self.points = [{'x':multiplier*(point['x']-center['x'])+center['x'],'y':multiplier*(point['y']-center['y'])+center['y']} for point in self.points]
+		return self
+
+	def getCorners(self): #1 - left top,2,3,4
+		# if we imagine a rectangle around polygon, here we calculate diagonal length of such a rectangle
+		xs = [point['x'] for point in self.points]
+		ys = [point['y'] for point in self.points]
+		return [{
+			'x':int(min(xs)),
+			'y':int(min(ys))
+		},{
+			'x':int(max(xs)),
+			'y':int(max(ys))
+		}]
+
+	def getAreaDiagonalLength(self):
+		corners = self.getCorners()
+		edge = Edge(corners[0],corners[1])
+		return edge.getLength()

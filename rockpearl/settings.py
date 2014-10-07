@@ -32,7 +32,7 @@ MARBLE_3D_ERROR_THREASHOLD = {
     'perimetr':0.15,
     'area':0.15
 }
-MARBLE_3D_ENLARGE_POLYGON = 40
+MARBLE_3D_ENLARGE_POLYGON = 100
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 

@@ -14,7 +14,7 @@ from utils import publishImage
 import json
 from crowdcafe import CrowdCafeJudgement, Evaluation, controlCrowdCafeData
 from tasks import processCrowdCafeResult
-from utils import updateUnitStatus
+from utils import CrowdCafeCall
 def home(request):
 	return render_to_response('marble3d/home.html', context_instance=RequestContext(request)) 
 
@@ -87,11 +87,12 @@ class ImageUpdateView(UpdateView):
 		return redirect(reverse('marble3d-image-list', kwargs={'block_pk': image.block.id}))
 
 def uploadImage(request, block_pk):
+	call = CrowdCafeCall()
 	block = get_object_or_404(Block, pk = block_pk)
 	
 	image = Image(block = block, filename = request.POST['filename'], url = request.POST['image_url'])
 	image.save()
-	if publishImage(image):
+	if call.publishImage(image):
 		return HttpResponse(status=200)
 	else:
 		return HttpResponse(status=500)

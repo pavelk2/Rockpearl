@@ -7,7 +7,7 @@ from social_auth.models import UserSocialAuth
 from django.conf import settings
 import json
 from crowdcafe import CrowdCafeJudgement, Evaluation
-from utils import splitArrayIntoPairs, sendRequest, updateUnitStatus
+from utils import splitArrayIntoPairs, CrowdCafeCall
 import logging
 from social_auth.models import UserSocialAuth
 from models import Image
@@ -18,12 +18,13 @@ app = Celery('tasks',  broker=settings.BROKER_URL)
 
 @app.task()
 def processCrowdCafeResult(item):
+	call = CrowdCafeCall()
 	unit_url = settings.CROWDCAFE['api_url']+'unit/'+str(item['unit'])+'/'
-	unit = sendRequest('get',unit_url).json()
+	unit = call.sendRequest('get',unit_url).json()
 	log.debug('unit: ' + str(unit))
 	
 	url = settings.CROWDCAFE['api_url']+'unit/'+str(item['unit'])+'/judgement/'
-	judgements_of_unit = sendRequest('get',url).json()
+	judgements_of_unit = call.sendRequest('get',url).json()
 	log.debug('judgements in the unit are: ' + str(judgements_of_unit['count']))
 	
 	if judgements_of_unit['count'] >= 2 and not unit['gold']:
