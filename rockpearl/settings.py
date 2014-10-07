@@ -148,12 +148,12 @@ LOGGING = {
         },
         'marble3d': {
             'handlers': ['console','logfile','mail_admins'],
-            'level': 'WARNING',
+            'level': 'DEBUG',
             'propagate': False,
         },
         'celery': {
             'handlers': ['console','logfile','mail_admins'],
-            'level': 'WARNING',
+            'level': 'DEBUG',
             'propagate': True
         }
 
