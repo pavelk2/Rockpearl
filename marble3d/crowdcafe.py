@@ -153,15 +153,21 @@ class Evaluation:
 		return delta_relative['x'] < self.threashold['center_distance'] and delta_relative['y']<self.threashold['center_distance']
 
 	def checkArea(self):
-		area_relative_difference = (max([self.judgement1.polygon.getArea(),self.judgement2.polygon.getArea()])-min([self.judgement1.polygon.getArea(),self.judgement2.polygon.getArea()]))/min([self.judgement1.polygon.getArea(),self.judgement2.polygon.getArea()])
-		
+		area1 = self.judgement1.polygon.getArea()
+		area2 = self.judgement2.polygon.getArea()*(self.scale['x']*self.scale['y'])
+
+		area_relative_difference = (max([area1,area2])-min([area1,area2]))/min([area1,area2])
 		log.debug('area relative difference: ' + str(area_relative_difference))
 		
 		return area_relative_difference <= self.threashold['area']
 
 	def checkPerimeter(self):
-		perimetr_relative_difference = (max([self.judgement1.polygon.getPerimeter(),self.judgement2.polygon.getPerimeter()])-min([self.judgement1.polygon.getPerimeter(),self.judgement2.polygon.getPerimeter()]))/min([self.judgement1.polygon.getPerimeter(),self.judgement2.polygon.getPerimeter()])
+		per1 = self.judgement1.polygon.getPerimeter()
+		per2 = self.judgement2.polygon.getPerimeter()*(self.scale['x'])
+		
+		perimetr_relative_difference = (max([per1,per2])-min([per1,per2]))/min([per1,per2])
 		log.debug('perimetr relative difference: ' + str(perimetr_relative_difference))
+
 		return  perimetr_relative_difference <= self.threashold['perimetr']
 
 def controlCrowdCafeData(data_in_json):
