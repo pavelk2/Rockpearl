@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 """
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-SESSION_COOKIE_SECURE = True
 from settings_database import *
 from settings_credentials import *
 
@@ -38,7 +37,7 @@ MARBLE_3D_ENLARGE_POLYGON = 100
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
