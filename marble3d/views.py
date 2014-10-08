@@ -90,7 +90,7 @@ def webhook(request):
     if 'challenge' in request.GET:
     	return HttpResponse(request.GET['challenge'])
     else:
-    	return return HttpResponse(status=200)
+    	return HttpResponse(status=200)
 
 def uploadImage(request, block_pk):
 	call = CrowdCafeCall()
