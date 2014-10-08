@@ -89,6 +89,8 @@ def webhook(request):
     '''Respond to the webhook verification (GET request) by echoing back the challenge parameter.'''
     if 'challenge' in request.GET:
     	return HttpResponse(request.GET['challenge'])
+    else:
+    	return return HttpResponse(status=200)
 
 def uploadImage(request, block_pk):
 	call = CrowdCafeCall()
