@@ -17,14 +17,15 @@ class Polygon:
 
 	def __init__(self, points):
 		self.points = points
-	def offset(distance):
+	def offset(self, distance):
+		self.points.append(self.points[0])
 		line = LineString(self.getSequence())
-		offset = line.parallel_offset(distance, 'left', join_style=1)
-
+		offset = line.parallel_offset(distance, 'right', join_style=1)
+		#return list(offset.coords)
 		self.setSequence(list(offset.coords))
 		return self
 
-	def setSequence(sequence):
+	def setSequence(self, sequence):
 		self.points = [{'x':point[0],'y':point[1]} for point in sequence]
 		return self
 

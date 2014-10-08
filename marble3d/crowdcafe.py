@@ -45,6 +45,7 @@ class CrowdCafeJudgement:
 		imArray = numpy.asarray(im)
 		# create mask
 		maskIm = Image.new('L', (imArray.shape[1], imArray.shape[0]), 0)
+		#polygon_points = self.polygon.offset(settings.MARBLE_3D_ENLARGE_POLYGON)
 		polygon_points = self.polygon.getSequence()
 		log.debug(polygon_points)
 
@@ -79,7 +80,8 @@ class CrowdCafeJudgement:
 		log.debug(self.polygon.points)
 		
 		# Add margins
-		self.polygon.offset(settings.MARBLE_3D_ENLARGE_POLYGON)
+		self.polygon.enlargeAbs(settings.MARBLE_3D_ENLARGE_POLYGON)
+		#self.polygon.offset(settings.MARBLE_3D_ENLARGE_POLYGON)
 		log.debug('polygon enlarged:')
 		log.debug(self.polygon.points)
 		

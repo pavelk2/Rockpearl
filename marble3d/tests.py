@@ -43,7 +43,7 @@ class Marble3D(TestCase):
         
         self.assertEqual(polygon.enlargeRel(1.05).points, polygon_enlarged.points)
     
-    def cropAndSave(self):
+    def test_cropAndSave(self):
         item = self.polygon_judgement
         unit_url = settings.CROWDCAFE['api_url']
         unit_url+= 'unit/'+str(item['unit'])+'/'
