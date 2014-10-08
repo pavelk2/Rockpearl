@@ -85,6 +85,11 @@ class ImageUpdateView(UpdateView):
 		image = form.save()
 		return redirect(reverse('marble3d-image-list', kwargs={'block_pk': image.block.id}))
 
+def webhook(request):
+    '''Respond to the webhook verification (GET request) by echoing back the challenge parameter.'''
+    if 'challenge' in request.GET:
+    	return request.GET['challenge']
+    	
 def uploadImage(request, block_pk):
 	call = CrowdCafeCall()
 	block = get_object_or_404(Block, pk = block_pk)
