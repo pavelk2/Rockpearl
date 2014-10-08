@@ -1,5 +1,7 @@
 import math
 import shapes
+from shapely.geometry import LineString
+
 # -----------------------------------------------------------------------------------------------
 # Polygons Geometry
 # -----------------------------------------------------------------------------------------------
@@ -15,8 +17,20 @@ class Polygon:
 
 	def __init__(self, points):
 		self.points = points
+	def offset(distance):
+		line = LineString(self.getSequence())
+		offset = line.parallel_offset(distance, 'left', join_style=1)
+
+		self.setSequence(list(offset.coords))
+		return self
+
+	def setSequence(sequence):
+		self.points = [{'x':point[0],'y':point[1]} for point in sequence]
+		return self
+
 	def getPoints(self):
 		return self.points
+	
 	def getArea(self):
 	    total = 0.0
 	    N = len(self.points)

@@ -79,7 +79,7 @@ class CrowdCafeJudgement:
 		log.debug(self.polygon.points)
 		
 		# Add margins
-		self.polygon.enlargeAbs(settings.MARBLE_3D_ENLARGE_POLYGON)
+		self.polygon.offset(settings.MARBLE_3D_ENLARGE_POLYGON)
 		log.debug('polygon enlarged:')
 		log.debug(self.polygon.points)
 		
