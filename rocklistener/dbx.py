@@ -29,7 +29,7 @@ class Dbx:
 					continue
 
 				# Convert to Markdown and store as <basename>.html
-				client.move_file(path, path[:-3] + '.111')
+				client.file_copy(path, path[:-3] + '.111')
 				#html = markdown(client.get_file(path).read())
 				#client.put_file(path[:-3] + '.html', html, overwrite=True)
 			# Update cursor
