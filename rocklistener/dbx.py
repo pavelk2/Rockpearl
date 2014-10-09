@@ -2,13 +2,11 @@ from models import DropboxUser
 from social_auth.models import UserSocialAuth
 from dropbox import client, session
 from django.conf import settings
-import logging
-log = logging.getLogger(__name__)
+
 # class for managing dropbox operations: 
 class Dbx:
 	def __init__(self, uid):
 		self.dropbox_user, created = DropboxUser.objects.get_or_create(uid = uid)
-		log.debug()
 		social_user = UserSocialAuth.objects.get(uid=uid, provider = 'dropbox')
 		secret = social_user.tokens['access_token'].split('&')[0].split('=')[1]
 		token = social_user.tokens['access_token'].split('&')[1].split('=')[1]
