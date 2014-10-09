@@ -1,6 +1,7 @@
 from models import DropboxUser
 from social_auth.models import UserSocialAuth
 from dropbox import client, session
+from django.conf import settings
 
 
 # class for managing dropbox operations: 
