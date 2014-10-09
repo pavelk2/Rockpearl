@@ -8,9 +8,10 @@ import logging
 import numpy
 import json
 
-from utils import splitArrayIntoPairs, CrowdCafeCall
+from utils import splitArrayIntoPairs
+from general.crowdcafe import CrowdCafe
 from django.conf import settings
-from crowdcafe import CrowdCafeJudgement, Evaluation, controlCrowdCafeData
+from crowdjudgements import CrowdCafeJudgement, Evaluation, controlCrowdCafeData
 from tasks import processCrowdCafeResult,processGoodJudgement
 from polygons import Polygon
 
@@ -37,29 +38,20 @@ class Marble3D(TestCase):
         evaluation = controlCrowdCafeData(self.polygon_data_correct)
         self.assertEqual(evaluation, True)
     
-    def test_polygon_enlargement(self):
-        polygon = Polygon([{'x':10,'y':10},{'x':20,'y':10},{'x':20,'y':20},{'x':10,'y':20}])
-        polygon_enlarged = Polygon([{'y': 9.75, 'x': 9.75}, {'y': 9.75, 'x': 20.25}, {'y': 20.25, 'x': 20.25}, {'y': 20.25, 'x': 9.75}])
-        
-        self.assertEqual(polygon.enlargeRel(1.05).points, polygon_enlarged.points)
-    
     def test_cropAndSave(self):
         item = self.polygon_judgement
-        unit_url = settings.CROWDCAFE['api_url']
-        unit_url+= 'unit/'+str(item['unit'])+'/'
-
-        calls = CrowdCafeCall()
-        unit = calls.sendRequest('get',unit_url).json()
-
         
-        url = settings.CROWDCAFE['api_url']+'unit/'+str(item['unit'])+'/judgement/'
-        judgements_of_unit = calls.sendRequest('get',url).json()
-        
+        crowdcafe = CrowdCafe()
+
+        unit = crowdcafe.getUnit(item['unit'])
+        log.debug(unit)
+        judgements_of_unit = crowdcafe.listJudgements(item['unit'])
+        log.debug(judgements_of_unit)
         log.debug('judgements in the unit are: ' + str(judgements_of_unit['count']))
 
         judgement_to_pick = CrowdCafeJudgement(crowdcafe_data = item)
         
-        secret = 'DROPBOX_USER_SECRET'
-        token = 'DROPBOX_USER_TOKEN'
+        secret = settings.DROPBOX_USER_SECRET
+        token = settings.DROPBOX_USER_TOKEN
         # create cropped image based on the selected judgement and send to dropbox
         judgement_to_pick.cropAndSave(unit['input_data'],token,secret)

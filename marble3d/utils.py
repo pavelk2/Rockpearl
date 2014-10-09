@@ -27,55 +27,6 @@ def sendFileToDropbox(image, folder, filename, dropbox_token, dropbox_secret):
 	image.save(buffer, "JPEG")
 	return dropbox_client.put_file(dropbox_path, buffer)
 
-class CrowdCafeCall:
-	def publishImage(self,image):
-		image_data = {
-			'image_id' : image.id,
-			'block_title' : image.block.title,
-			'image_filename': image.filename,
-			'url': image.url
-		}
-		url = settings.CROWDCAFE['api_url']+'job/'+str(image.block.job_id)+'/unit/'
-
-		r = self.sendRequest('post',url,image_data)
-
-		if r.status_code in [201,200]:
-			image.status = 'NC'
-			image.save()
-			return image
-		else:
-			image.delete()
-			return False
-
-	def sendRequest(self,request_type, url,data = {}):
-		headers = {
-			'Content-type': 'application/json',
-			'Authorization':'Token '+settings.CROWDCAFE['user_token']+'|'+settings.CROWDCAFE['app_token']
-		}
-		r = False
-		if request_type == 'post':
-			r = requests.post(url, data = json.dumps(data), headers = headers)
-		elif request_type == 'get':
-			r = requests.get(url, headers = headers)
-		elif request_type == 'patch':
-			r = requests.patch(url, data = json.dumps(data), headers = headers)
-		return r
-
-	def updateUnitStatus(self, unit_id, status):
-		url = settings.CROWDCAFE['api_url']+'unit/'+str(unit_id)+'/'
-		
-		log.debug('unit status update url: '+str(url))
-		
-		r = self.sendRequest('patch',url,{'status':status})
-		
-		log.debug('unit status update '+str(r))
-		
-		if r.status_code in [201,200]:
-			log.debug('unit status update url: '+str(r.json()))
-			if r.json()['status'] == status:
-				return True
-		return False
-
 def splitArrayIntoPairs(arr):
 	pairs = list(itertools.combinations(arr,2))
 	log.debug('\n pairs: %s',pairs)

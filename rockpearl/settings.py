@@ -67,6 +67,7 @@ INSTALLED_APPS = (
     'social_auth',
     'general',
     'dropbox',
+    'rocklistener',
     'djcelery',
     'djrill',
     #'djkombu',
@@ -147,8 +148,8 @@ LOGGING = {
             'propagate': False,
         },
         'marble3d': {
-            'handlers': ['console','logfile','mail_admins'],
-            'level': 'WARNING',
+            'handlers': ['console','mail_admins'],
+            'level': 'DEBUG',
             'propagate': False,
         },
         'celery': {

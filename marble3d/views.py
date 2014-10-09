@@ -11,9 +11,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
 import json
-from crowdcafe import CrowdCafeJudgement, Evaluation, controlCrowdCafeData
+from crowdjudgements import CrowdCafeJudgement, Evaluation, controlCrowdCafeData
 from tasks import processCrowdCafeResult
-from utils import CrowdCafeCall
+
+
 def home(request):
 	return render_to_response('marble3d/home.html', context_instance=RequestContext(request)) 
 
@@ -85,22 +86,25 @@ class ImageUpdateView(UpdateView):
 		image = form.save()
 		return redirect(reverse('marble3d-image-list', kwargs={'block_pk': image.block.id}))
 
-def webhook(request):
-    '''Respond to the webhook verification (GET request) by echoing back the challenge parameter.'''
-    if 'challenge' in request.GET:
-    	return HttpResponse(request.GET['challenge'])
-    else:
-    	return HttpResponse(status=200)
-
 def uploadImage(request, block_pk):
-	call = CrowdCafeCall()
+	crowdcafe = CrowdCafe()
 	block = get_object_or_404(Block, pk = block_pk)
 	
 	image = Image(block = block, filename = request.POST['filename'], url = request.POST['image_url'])
 	image.save()
-	if call.publishImage(image):
+	job_id = image.block.job_id
+	unit_data = {
+			'image_id' : image.id,
+			'block_title' : image.block.title,
+			'image_filename': image.filename,
+			'url': image.url
+		}
+	if crowdcafe.createUnit(job_id, unit_data) in [200,201]:
+		image.status = 'NC'
+		image.save()
 		return HttpResponse(status=200)
 	else:
+		image.delete()
 		return HttpResponse(status=500)
 
 @csrf_exempt

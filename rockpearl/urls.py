@@ -6,8 +6,10 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^', include('general.urls')),
+
     url(r'account/', include('social_auth.urls')),
     url(r'marble3d/', include('marble3d.urls')),
+    url(r'rocklistener/', include('rocklistener.urls')),
 
     url(r'admin/', include(admin.site.urls)),
 )

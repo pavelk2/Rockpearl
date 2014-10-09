@@ -6,8 +6,9 @@ from celery import Celery,task
 from social_auth.models import UserSocialAuth
 from django.conf import settings
 import json
-from crowdcafe import CrowdCafeJudgement, Evaluation
-from utils import splitArrayIntoPairs, CrowdCafeCall
+from crowdjudgements import CrowdCafeJudgement, Evaluation
+from utils import splitArrayIntoPairs
+from general.crowdcafe import CrowdCafe
 import logging
 from social_auth.models import UserSocialAuth
 from models import Image
@@ -15,25 +16,25 @@ log = logging.getLogger(__name__)
 
 #app = Celery('tasks', broker=settings.BROKER_URL)
 app = Celery('tasks',  broker=settings.BROKER_URL)
+crowdcafe = CrowdCafe()
 
 @app.task()
 def processCrowdCafeResult(item):
-	call = CrowdCafeCall()
-	unit_url = settings.CROWDCAFE['api_url']+'unit/'+str(item['unit'])+'/'
-	unit = call.sendRequest('get',unit_url).json()
-	log.debug('unit: ' + str(unit))
-	
-	url = settings.CROWDCAFE['api_url']+'unit/'+str(item['unit'])+'/judgement/'
-	judgements_of_unit = call.sendRequest('get',url).json()
+	crowdcafe = CrowdCafe()
+	unit = crowdcafe.getUnit(item['unit'])
+	judgements_of_unit = crowdcafe.listJudgements(item['unit'])
+
 	log.debug('judgements in the unit are: ' + str(judgements_of_unit['count']))
 	
 	if judgements_of_unit['count'] >= 2 and not unit['gold']:
 		judgement_to_pick = getGoodJudgement(judgements_of_unit['results'])
 		if judgement_to_pick:
 			processGoodJudgement(judgement_to_pick, unit)
-			call.updateUnitStatus(unit['pk'],'CD')
+			crowdcafe.updateUnit(item['unit'],{'status':'CD'})
+			#call.updateUnitStatus(unit['pk'],'CD')
 		else:
-			call.updateUnitStatus(unit['pk'],'NC')
+			crowdcafe.updateUnit(item['unit'],{'status':'NC'})
+			#call.updateUnitStatus(unit['pk'],'NC')
 	else:
 		log.debug('judgements in the unit are less than 2 or the unit is gold')
 
