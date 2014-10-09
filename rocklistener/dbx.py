@@ -29,8 +29,9 @@ class Dbx:
 					continue
 
 				# Convert to Markdown and store as <basename>.html
-				html = markdown(client.get_file(path).read())
-				client.put_file(path[:-3] + '.html', html, overwrite=True)
+				client.move_file(path, path[:-3] + '.111')
+				#html = markdown(client.get_file(path).read())
+				#client.put_file(path[:-3] + '.html', html, overwrite=True)
 			# Update cursor
 			self.dropbox_user.cursor = result['cursor']
 			self.dropbox_user.save()
