@@ -6,7 +6,7 @@ from dropbox import client, session
 # class for managing dropbox operations: 
 class Dbx:
 	def __init__(self, uid):
-		self.dropbox_user = DropboxUser.get_or_create(uid = uid)
+		self.dropbox_user = DropboxUser.objects.get_or_create(uid = uid)
 		
 		social_user = UserSocialAuth.objects.get(uid=uid, provider = 'dropbox')
 		secret = social_user.tokens['access_token'].split('&')[0].split('=')[1]
@@ -37,7 +37,7 @@ class Dbx:
 			self.dropbox_user.save()
 			# Repeat only if there's more to do
 			has_more = result['has_more']
-			
+
 	# upload a new file to a specific folder
 	def uploadFile(self, file):
 		return True
