@@ -15,9 +15,6 @@ urlpatterns = patterns('',
 	
 	url(r'blocks/(?P<block_pk>\d+)/upload/$', login_required(views.uploadImage), name= 'marble3d-image-upload'),
 	
-	# Dropbox
-	url(r'webhook/$', views.webhook, name= 'marble3d-webhook'),
-	
 	# Endpoints which CrowdCafe calls:
 	# --------------------------------------------------------------------------------------
 	# Quality control
