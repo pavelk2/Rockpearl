@@ -43,6 +43,7 @@ class Rockpearl:
 			rename = self.dropbox_user.client.file_move(path,new_path)
 
 			image_url = self.rockpearl_url+'rocklistener/getMediaLink/'+str(uid)+'/?path='+new_path
+			
 			image_data = {
 			'uid': uid,
 			'path':new_path,
@@ -50,5 +51,5 @@ class Rockpearl:
 			'image_filename': new_filename,
 			'url': image_url
 			}
-			crowdcafe.updateUnit(unit_data['pk'],image_data)
+			crowdcafe.updateUnit(unit_data['pk'],{'input_data':image_data})
 		return True
