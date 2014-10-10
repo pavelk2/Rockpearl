@@ -42,6 +42,6 @@ class Rockpearl:
 			unit_data = unit.json()
 			log.debug(unit_data)
 
-			rename = self.dropbox_user.client.file_move(path,rest_path+'/'+str(unit_data['pk'])+'_'+filename)
-			log.debug(rename)
+			#rename = self.dropbox_user.client.file_move(path,rest_path+'/'+str(unit_data['pk'])+'_'+filename)
+			#log.debug(rename)
 		return True
