@@ -30,20 +30,25 @@ class Rockpearl:
 			log.debug(new_metadata)
 
 			# create unit
-			image_url = self.rockpearl_url+'rocklistener/getMediaLink/'+str(uid)+'/?path='+path
 			
-
 			unit_data = {
-			'image_id' : 123,
-			'uid': uid,
-			'path':path,
-			'block_title' : folder,
-			'image_filename': filename,
-			'url': image_url}
+			'uid': uid
+			}
 			unit = crowdcafe.createUnit(self.job_id, unit_data)
 			unit_data = unit.json()
 			log.debug(unit_data)
 
-			rename = self.dropbox_user.client.file_move(path,rest_path+'/inprogress_'+str(unit_data['pk'])+'_'+filename)
-			log.debug(rename)
+			new_filename = '/inprogress_'+str(unit_data['pk'])+'_'+filename
+			new_path = rest_path+new_filename
+			rename = self.dropbox_user.client.file_move(path,new_path)
+
+			image_url = self.rockpearl_url+'rocklistener/getMediaLink/'+str(uid)+'/?path='+new_path
+			unit_data = {
+			'uid': uid,
+			'path':new_path,
+			'block_title' : folder,
+			'image_filename': new_filename,
+			'url': image_url
+			}
+			crowdcafe.updateUnit(unit_data['pk'],unit_data)
 		return True
