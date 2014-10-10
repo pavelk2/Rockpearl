@@ -13,7 +13,7 @@ class Rockpearl:
 	def getMediaURL(path):
 		media = self.dropbox_user.getDirectLink(path)
 		return media['url']
-	
+
 	def publishImage(update):
 		uid = dropbox_user.uid
 		path, metadata = update
@@ -25,13 +25,12 @@ class Rockpearl:
 		rest_path = path[:path.rfind('/')]
 		folder = rest_path[rest_path.rfind('/')+1:len(rest_path)]
 		unit_data = {
-                'image_id' : 123,
-                'uid': uid,
-                'path':path,
-                'block_title' : folder,
-                'image_filename': filename,
-                'url': image_url
-        }
-        unit = crowdcafe.createUnit(self.job_id, unit_data)
-        log.debug(unit)
-        return unit
+		'image_id' : 123,
+		'uid': uid,
+		'path':path,
+		'block_title' : folder,
+		'image_filename': filename,
+		'url': image_url}
+		unit = crowdcafe.createUnit(self.job_id, unit_data)
+		log.debug(unit)
+		return unit
