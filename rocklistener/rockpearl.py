@@ -31,10 +31,10 @@ class Rockpearl:
 
 			# create unit
 			
-			unit_data = {
+			image_data = {
 			'uid': uid
 			}
-			unit = crowdcafe.createUnit(self.job_id, unit_data)
+			unit = crowdcafe.createUnit(self.job_id, image_data)
 			unit_data = unit.json()
 			log.debug(unit_data)
 
@@ -43,12 +43,12 @@ class Rockpearl:
 			rename = self.dropbox_user.client.file_move(path,new_path)
 
 			image_url = self.rockpearl_url+'rocklistener/getMediaLink/'+str(uid)+'/?path='+new_path
-			unit_data = {
+			image_data = {
 			'uid': uid,
 			'path':new_path,
 			'block_title' : folder,
 			'image_filename': new_filename,
 			'url': image_url
 			}
-			crowdcafe.updateUnit(unit_data['pk'],unit_data)
+			crowdcafe.updateUnit(unit_data['pk'],image_data)
 		return True
