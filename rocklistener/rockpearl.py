@@ -19,6 +19,7 @@ class Rockpearl:
 		path, metadata = update
 		log.debug('path and metadata')
 		log.debug(path)
+		log.debug(metadata)
 		
 		new_metadata = self.dropbox_user.client.metadata(path,include_media_info = True)
 		log.debug(new_metadata)
