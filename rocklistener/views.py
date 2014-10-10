@@ -32,7 +32,7 @@ def webhook_dropbox(request):
     	return HttpResponse(status=200)
 
 def getMediaLink(request, uid):
-    if uid and path in request.GET:
+    if uid and 'path' in request.GET:
         dbuser = Dbx(uid)
         path = request.GET['path']
         media = dbuser.getDirectLink(path)
