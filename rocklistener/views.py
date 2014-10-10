@@ -31,7 +31,7 @@ def webhook_dropbox(request):
 
                 # create unit
                 rockpearl_url = 'http://rockpearl.crowdcafe.io/'
-                image_url = rockpearl_url+'rocklistener/getMediaLink/'+str(uid)+'/?'+path
+                image_url = rockpearl_url+'rocklistener/getMediaLink/'+str(uid)+'/?path='+path
 
                 filename = path[path.rfind('/')+1:len(path)]
                 rest_path = path[:path.rfind('/')]
