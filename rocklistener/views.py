@@ -21,9 +21,9 @@ def webhook_dropbox(request):
             updates = dbuser.checkUpdates()
             log.debug(updates)
             
-            for update  in updates:
+            for path, metadata  in updates:
                 rockpearl = Rockpearl(dbuser)
-                rockpearl.publishImage(update)
+                rockpearl.publishImage(path, metadata)
     	
         return HttpResponse(status=200)
 

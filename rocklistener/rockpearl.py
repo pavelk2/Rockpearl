@@ -14,9 +14,8 @@ class Rockpearl:
 		media = self.dropbox_user.getDirectLink(path)
 		return media['url']
 
-	def publishImage(self,update):
+	def publishImage(self,path, metadata):
 		uid = self.dropbox_user.uid
-		path, metadata = update
 		log.debug('path and metadata')
 		log.debug(path)
 		log.debug(metadata)
