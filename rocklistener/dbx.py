@@ -21,26 +21,21 @@ class Dbx:
 	# check updates (files and folders) for a specific user
 	def checkUpdates(self):
 		has_more = True
+		updates = []
 		while has_more:
-			result = self.client.delta(self.dropbox_user.cursor)
-			for path, metadata in result['entries']:
-				# Ignore deleted files, folders, and non-markdown files
-				if (metadata is None or metadata['is_dir'] or not path.endswith('.jpg')):
-					continue
 
-				# Convert to Markdown and store as <basename>.html
-				self.client.file_copy(path, path[:-3] + '.111')
-				#html = markdown(client.get_file(path).read())
-				#client.put_file(path[:-3] + '.html', html, overwrite=True)
+			result = self.client.delta(self.dropbox_user.cursor)
+			updates = updates + result['entries']
 			# Update cursor
 			self.dropbox_user.cursor = result['cursor']
 			self.dropbox_user.save()
 			# Repeat only if there's more to do
 			has_more = result['has_more']
-
+		
+		return updates
 	# upload a new file to a specific folder
 	def uploadFile(self, file):
 		return True
 	# rename folder
-	def renameFolder(self, path, name):
-		return True
+	# def renameFolder(self, path, name):
+	#	return True

@@ -3,7 +3,12 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from dbx import Dbx
+from general.crowdcafe import CrowdCafe
 
+import logging
+log = logging.getLogger(__name__)
+
+crowdcafe = CrowdCafe()
 @csrf_exempt
 def webhook(request):
     '''Respond to the webhook verification (GET request) by echoing back the challenge parameter.'''
@@ -16,5 +21,10 @@ def webhook(request):
 	        # good idea to add the work to a reliable queue and process the queue
 	        # in a worker process.
             dbuser = Dbx(uid)
-            dbuser.checkUpdates()
+            updates = dbuser.checkUpdates()
+            for path, metadata in updates:
+                log.debug('path and metadata')
+                log.debug(path)
+                log.debug(metadata)
+                #if crowdcafe.createUnit(job_id, unit_data) in [200,201]:
     	return HttpResponse(status=200)

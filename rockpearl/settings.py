@@ -152,6 +152,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
+        'rocklistener': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
         'celery': {
             'handlers': ['console','logfile'],
             'level': 'WARNING',
