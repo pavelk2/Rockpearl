@@ -25,6 +25,7 @@ def webhook(request):
             for path, metadata in updates:
                 log.debug('path and metadata')
                 log.debug(path)
+                log.debug('https://api.dropbox.com/'+uid+'/shares/auto/'+path)
                 log.debug(metadata)
                 #if crowdcafe.createUnit(job_id, unit_data) in [200,201]:
     	return HttpResponse(status=200)
