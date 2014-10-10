@@ -39,4 +39,3 @@ class Rockpearl:
         unit = crowdcafe.createUnit(self.job_id, unit_data)
         log.debug(unit)
         return unit
-        
