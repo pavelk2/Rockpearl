@@ -6,6 +6,7 @@ from django.conf import settings
 # class for managing dropbox operations: 
 class Dbx:
 	def __init__(self, uid):
+		self.uid = uid
 		self.dropbox_user, created = DropboxUser.objects.get_or_create(uid = uid)
 		social_user = UserSocialAuth.objects.get(uid=uid, provider = 'dropbox')
 		secret = social_user.tokens['access_token'].split('&')[0].split('=')[1]
