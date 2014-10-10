@@ -28,7 +28,7 @@ def webhook_dropbox(request):
             for path, metadata in updates:
                 log.debug('path and metadata')
                 log.debug(path)
-                
+
                 # create unit
                 rockpearl_url = 'http://rockpearl.crowdcafe.io/'
                 image_url = rockpearl_url+'rocklistener/getMediaLink/'+str(uid)+'/?'+path
@@ -37,7 +37,7 @@ def webhook_dropbox(request):
                 rest_path = path[:path.rfind('/')]
                 folder = rest_path[rest_path.rfind('/')+1:len(rest_path)]
                 unit_data = {
-                        'image_id' : image.id,
+                        'image_id' : 123,
                         'uid': uid,
                         'block_title' : folder,
                         'image_filename': filename,
