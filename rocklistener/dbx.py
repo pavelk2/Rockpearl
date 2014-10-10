@@ -34,6 +34,8 @@ class Dbx:
 		
 		return updates
 	# upload a new file to a specific folder
+	def getDirectLink(self, path):
+		return self.client.media(path)
 	def uploadFile(self, file):
 		return True
 	# rename folder
