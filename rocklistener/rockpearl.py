@@ -16,7 +16,14 @@ class Rockpearl:
 		return media['url']
 
 	def publishImage(self,path, metadata):
-		if metadata and metadata['mime_type'] in ['image/jpeg','image/png']:
+		filename = path[path.rfind('/')+1:len(path)]
+		rest_path = path[:path.rfind('/')]
+		folder = rest_path[rest_path.rfind('/')+1:len(rest_path)]
+
+		if metadata and 
+		metadata['mime_type'] in ['image/jpeg','image/png'] and
+		'inprogress_' not in filename and
+		'completed_' not in filename:
 			uid = self.dropbox_user.uid
 			log.debug('path and metadata')
 			log.debug(path)
@@ -27,9 +34,7 @@ class Rockpearl:
 
 			# create unit
 			image_url = self.rockpearl_url+'rocklistener/getMediaLink/'+str(uid)+'/?path='+path
-			filename = path[path.rfind('/')+1:len(path)]
-			rest_path = path[:path.rfind('/')]
-			folder = rest_path[rest_path.rfind('/')+1:len(rest_path)]
+			
 
 			unit_data = {
 			'image_id' : 123,
@@ -42,6 +47,6 @@ class Rockpearl:
 			unit_data = unit.json()
 			log.debug(unit_data)
 
-			#rename = self.dropbox_user.client.file_move(path,rest_path+'/'+str(unit_data['pk'])+'_'+filename)
-			#log.debug(rename)
+			rename = self.dropbox_user.client.file_move(path,rest_path+'/inprogress_'+str(unit_data['pk'])+'_'+filename)
+			log.debug(rename)
 		return True
