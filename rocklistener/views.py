@@ -22,6 +22,7 @@ def webhook(request):
 	        # in a worker process.
             dbuser = Dbx(uid)
             updates = dbuser.checkUpdates()
+            log.debug(updates)
             for path, metadata in updates:
                 log.debug('path and metadata')
                 log.debug(path)
