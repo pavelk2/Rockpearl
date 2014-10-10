@@ -37,5 +37,6 @@ class Rockpearl:
 		'url': image_url}
 		unit = crowdcafe.createUnit(self.job_id, unit_data)
 		log.debug(unit)
-		'''
+
 		return unit
+		'''
