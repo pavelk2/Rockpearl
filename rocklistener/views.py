@@ -29,10 +29,10 @@ def webhook_dropbox(request):
 
 def getMediaLink(request, uid):
     if uid and 'path' in request.GET:
-
+        path = request.GET['path']
         dbuser = Dbx(uid)
         rockpearl = Rockpearl(dbuser)
-        
+
         return redirect(rockpearl.getMediaURL(path))
     else:
         return HttpResponse(status=404)
