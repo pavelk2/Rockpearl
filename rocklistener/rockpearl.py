@@ -20,10 +20,7 @@ class Rockpearl:
 		rest_path = path[:path.rfind('/')]
 		folder = rest_path[rest_path.rfind('/')+1:len(rest_path)]
 
-		if metadata and 
-		metadata['mime_type'] in ['image/jpeg','image/png'] and
-		'inprogress_' not in filename and
-		'completed_' not in filename:
+		if metadata and metadata['mime_type'] in ['image/jpeg','image/png'] and 'inprogress_' not in filename and 'completed_' not in filename:
 			uid = self.dropbox_user.uid
 			log.debug('path and metadata')
 			log.debug(path)
