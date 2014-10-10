@@ -25,7 +25,7 @@ def webhook(request):
             for path, metadata in updates:
                 log.debug('path and metadata')
                 log.debug(path)
-                log.debug(dbuser.getDirectLink(path))
+                log.debug(dbuser.getDirectLink('/Apps/CrowdCrop'+path))
                 log.debug(metadata)
                 #if crowdcafe.createUnit(job_id, unit_data) in [200,201]:
     	return HttpResponse(status=200)
