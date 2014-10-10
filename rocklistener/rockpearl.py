@@ -19,6 +19,10 @@ class Rockpearl:
 		path, metadata = update
 		log.debug('path and metadata')
 		log.debug(path)
+		
+		new_metadata = self.dropbox_user.client.metadata(path,include_media_info = True)
+		log.debug(new_metadata)
+		'''
 		# create unit
 		image_url = self.rockpearl_url+'rocklistener/getMediaLink/'+str(uid)+'/?path='+path
 		filename = path[path.rfind('/')+1:len(path)]
@@ -33,4 +37,5 @@ class Rockpearl:
 		'url': image_url}
 		unit = crowdcafe.createUnit(self.job_id, unit_data)
 		log.debug(unit)
+		'''
 		return unit
