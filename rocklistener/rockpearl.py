@@ -5,16 +5,16 @@ import logging
 log = logging.getLogger(__name__)
 
 class Rockpearl:
-	def __init__(dropbox_user):
+	def __init__(self,dropbox_user):
 		self.dropbox_user = dropbox_user
 		self.job_id = 8
 		self.rockpearl_url = 'http://rockpearl.crowdcafe.io/'
 
-	def getMediaURL(path):
+	def getMediaURL(self,path):
 		media = self.dropbox_user.getDirectLink(path)
 		return media['url']
 
-	def publishImage(update):
+	def publishImage(self,update):
 		uid = dropbox_user.uid
 		path, metadata = update
 		log.debug('path and metadata')
