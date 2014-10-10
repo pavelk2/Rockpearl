@@ -11,7 +11,7 @@ class Dbx:
 		secret = social_user.tokens['access_token'].split('&')[0].split('=')[1]
 		token = social_user.tokens['access_token'].split('&')[1].split('=')[1]
 
-		sess = session.DropboxSession(settings.DROPBOX_APP_ID, settings.DROPBOX_API_SECRET, 'dropbox')
+		sess = session.DropboxSession(settings.DROPBOX_APP_ID, settings.DROPBOX_API_SECRET, 'app_folder')
 		sess.set_token(token,secret)
 
 		self.client = client.DropboxClient(sess)
