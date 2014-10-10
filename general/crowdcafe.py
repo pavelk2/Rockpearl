@@ -37,13 +37,13 @@ class CrowdCafe:
 	def createUnit(self,job_id, data):
 		url = 'job/'+str(job_id)+'/unit/'
 		r = self.sendRequest('post', url, data)
-		return r.status_code
+		return r
 
 	def updateUnit(self, unit_id, data_to_update):
 		url = 'unit/'+str(unit_id)+'/'
 		r = self.sendRequest('patch',url, data_to_update)
 		
-		return r.status_code
+		return r
 
 	def listJudgements(self, unit_id):
 		url = 'unit/'+str(unit_id)+'/judgement/'

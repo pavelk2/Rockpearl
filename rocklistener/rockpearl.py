@@ -1,6 +1,7 @@
 from general.crowdcafe import CrowdCafe
 crowdcafe = CrowdCafe()
 import logging
+import json
 
 log = logging.getLogger(__name__)
 
@@ -38,6 +39,6 @@ class Rockpearl:
 			'image_filename': filename,
 			'url': image_url}
 			unit = crowdcafe.createUnit(self.job_id, unit_data)
-			log.debug(unit)
+			log.debug(unit.json())
 
 		return True
