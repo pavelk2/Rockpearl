@@ -39,6 +39,9 @@ class Rockpearl:
 			'image_filename': filename,
 			'url': image_url}
 			unit = crowdcafe.createUnit(self.job_id, unit_data)
-			log.debug(unit.json())
+			unit_data = unit.json()
+			log.debug(unit_data)
 
+			rename = self.dropbox_user.client.file_move(path,path+'_'+str(unit_data['pk']))
+			log.debug(rename)
 		return True
