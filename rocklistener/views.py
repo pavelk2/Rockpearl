@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 
 crowdcafe = CrowdCafe()
 @csrf_exempt
-def webhook(request):
+def webhook_dropbox(request):
     '''Respond to the webhook verification (GET request) by echoing back the challenge parameter.'''
     if 'challenge' in request.GET:
     	return HttpResponse(request.GET['challenge'])
@@ -30,3 +30,12 @@ def webhook(request):
                 log.debug(metadata)
                 #if crowdcafe.createUnit(job_id, unit_data) in [200,201]:
     	return HttpResponse(status=200)
+
+def getMediaLink(request, uid):
+    if uid and path in request.GET:
+        dbuser = Dbx(uid)
+        path = request.GET['path']
+        media = dbuser.getDirectLink(path)
+        return redirect(media['url'])
+    else:
+        return HttpResponse(status=404)
