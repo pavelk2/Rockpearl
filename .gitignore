@@ -1,9 +1,13 @@
+static/
+
+.idea
+.idea/
 db.sqlite3
 rockpearl/settings_credentials.py
 rockpearl/settings_database.py
 
 components/bower_components
-
+.
 *.DS_Store
 db.sqlite3
 

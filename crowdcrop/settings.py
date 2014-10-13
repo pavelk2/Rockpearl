@@ -37,13 +37,13 @@ MARBLE_3D_ENLARGE_POLYGON = 100
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['rockpearl.crowdcafe.io','80.240.134.163']
+ALLOWED_HOSTS = ['crowdcrop.crowdcafe.io','80.240.134.163','localhost']
 
-BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_ROOT, 'components')
+BOWER_COMPONENTS_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
 BOWER_INSTALLED_APPS = (
     'bootstrap',
@@ -61,15 +61,18 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'account',
     'marble3d',
     'djangobower',
     'crispy_forms',
     'social_auth',
     'general',
     'dropbox',
-    'rocklistener',
+    'imagesource',
     'djcelery',
     'djrill',
+    'shapes',
+    'paypal.standard.ipn',
     #'djkombu',
     'kombu.transport.django',
 )
@@ -84,9 +87,9 @@ MIDDLEWARE_CLASSES = (
     'social_auth.middleware.SocialAuthExceptionMiddleware',
 )
 
-ROOT_URLCONF = 'rockpearl.urls'
+ROOT_URLCONF = 'crowdcrop.urls'
 
-WSGI_APPLICATION = 'rockpearl.wsgi.application'
+WSGI_APPLICATION = 'crowdcrop.wsgi.application'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
@@ -125,7 +128,7 @@ LOGGING = {
         'logfile': {
                 'level':'DEBUG',
                 'class':'logging.handlers.RotatingFileHandler',
-                'filename': "/var/log/django/rockpearl.log",
+                'filename': "/var/log/django/crowdcrop.log",
                 'maxBytes': 50000,
                 'backupCount': 3,
                 'formatter': 'standard'
@@ -152,7 +155,7 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': False,
         },
-        'rocklistener': {
+        'imagesource': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': False,
@@ -165,6 +168,13 @@ LOGGING = {
 
     }
 }
+APP_URL = "http://rockpearl.crowdcafe.io/"
+# PayPal account on which requestors send money
+# ---------------------------------------------------------------
+PAYPAL_RECEIVER_EMAIL = "pavel@crowdcafe.io"
+PAYPAL_TEST = False
+# ---------------------------------------------------------------
+
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.contrib.dropbox.DropboxBackend',
     #'social_auth.backends.twitter.TwitterBackend',
@@ -222,12 +232,13 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
+# https://docs.djangoproject.com/en/1.6/howto/static1-files/
 
-#STATIC_URL = '/static/'
-STATIC_URL = 'https://s3-eu-west-1.amazonaws.com/' + AWS_STORAGE_BUCKET_NAME + '/'
+STATIC_URL = '/static1/'
+#STATIC_URL = 'https://s3-eu-west-1.amazonaws.com/' + AWS_STORAGE_BUCKET_NAME + '/'
+STATIC_ROOT = 'static/'
 
-# List of finder classes that know how to find static files in
+# List of finder classes that know how to find static1 files in
 # various locations.
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -236,9 +247,7 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 # -----------------------------------------------------------------------------
-#DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 BROKER_BACKEND = "djkombu.transport.DatabaseTransport"
 BROKER_URL = 'django://'

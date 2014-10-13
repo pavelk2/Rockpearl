@@ -1,1 +1,0 @@
-gunicorn --bind rockpearl.crowdcafe.io:80  rockpearl.wsgi:application
