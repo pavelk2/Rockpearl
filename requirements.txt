@@ -1,4 +1,4 @@
-Django==1.6.5
+Django==1.11.23
 PIL==1.1.7
 amqp==1.4.5
 anyjson==0.3.3
