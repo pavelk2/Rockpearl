@@ -3,7 +3,7 @@ PIL==1.1.7
 amqp==1.4.5
 anyjson==0.3.3
 billiard==3.3.0.18
-celery==3.1.13
+celery==5.2.2
 django-bower==5.0.1
 django-celery==3.1.10
 django-crispy-forms==1.4.0
